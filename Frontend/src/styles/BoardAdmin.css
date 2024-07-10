@@ -1,0 +1,44 @@
+/* BoardAdmin.css */
+
+.admin-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .admin-header {
+    background-color: #0079f3;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(29, 10, 234, 0.249);
+  }
+  
+  .admin-dropdown-label {
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 10px;
+    background-color: #0079f3;
+  }
+  
+  .admin-form-select {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background-color: #fff;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+  
+  .admin-form-select:focus {
+    outline: none;
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  }
+  .admin-heading {
+    margin-top: 20px;
+    margin-left: 100px;
+    margin-bottom: 20px;
+  }

@@ -1,0 +1,182 @@
+/* Container styles */
+.lifecycle-container {
+  background-color: #f0f0f0; /* Light gray background */
+  padding: 20px;
+}
+
+/* Page title styles */
+.lifecycle-page-title {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-size: 32px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  text-transform: uppercase;
+  border-bottom: 2px solid #ccc; /* Adding a bottom border for separation */
+  padding-bottom: 10px;
+}
+
+/* Card container styles */
+.lifecycle-card-container {
+  background-color: #fff; /* White background */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  padding: 20px;
+  margin-bottom: 20px;
+  margin-right: 32%;
+  margin-left: 32%;
+}
+
+/* Form styles */
+.lifecycle-form-group {
+  margin-bottom: 20px;
+}
+
+/* Input styles */
+.lifecycle-form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 5px;
+}
+
+/* Table styles */
+.lifecycle-table {
+  background-color: #fff; /* White background */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  width: 100%; /* Full width */
+  border-collapse: collapse; /* Collapse border spacing */
+}
+
+/* Table header styles */
+.lifecycle-table th {
+  background-color: #007bff; /* Primary color */
+  color: #fff; /* White text color */
+  padding: 10px;
+}
+
+/* Table body styles */
+.lifecycle-table td {
+  padding: 10px;
+}
+
+/* Colorful table data */
+.lifecycle-table tbody tr:nth-child(odd) {
+  background-color: #f2f2f2; /* Light gray background for odd rows */
+}
+
+.lifecycle-table tbody tr:hover {
+  background-color: #e3e3e3; /* Darker shade on hover */
+}
+
+/* Selected device ticket styles */
+.lifecycle-selected-device-ticket {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 400px;
+  z-index: 999;
+}
+
+/* Close button styles */
+.lifecycle-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #dc3545;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  padding: 6px 12px;
+}
+
+.lifecycle-close-btn:hover {
+  background-color: #bd2130;
+}
+
+/* Selected device ticket title styles */
+.lifecycle-selected-device-ticket .ticket-title {
+  color: #333; /* Dark text color */
+  border-bottom: 2px solid #ccc; /* Adding a bottom border for separation */
+  padding-bottom: 10px;
+}
+
+/* Selected device ticket text styles */
+.lifecycle-selected-device-ticket .ticket-text {
+  margin-bottom: 10px;
+}
+
+/* Selected device details styles */
+.lifecycle-selected-device-details {
+  margin-top: 40px; /* Adjust the margin-top as needed */
+}
+
+/* Update button styles */
+.update {
+  background-color: #1d1e20; /* New color for the button */
+  border: none;
+  border-radius: 5px;
+  padding: 6px 12px; /* Even smaller padding */
+  color: #fff; /* White text color */
+  cursor: pointer;
+  margin-right: 10px; /* Added margin-right for gap between buttons */
+  display: inline-block; /* Ensure the button is displayed as a block element */
+}
+
+.update:hover {
+  background-color: #000000; /* Darker shade of button color on hover */
+}
+
+/* Update button link text color */
+.update a {
+  color: #fff; /* White text color */
+}
+
+/* Update button styles (for consistency with existing styles) */
+.lifecycle-btn-primary,
+.lifecycle-btn-danger,
+.lifecycle-btn-success {
+  border: none;
+  border-radius: 5px;
+  padding: 6px 12px; /* Even smaller padding */
+  color: #fff; /* White text color */
+  cursor: pointer;
+  margin-right: 10px; /* Added margin-right for gap between buttons */
+}
+
+.lifecycle-btn-primary:hover {
+  background-color: #0056b3; /* Darker shade of primary color */
+}
+
+.lifecycle-btn-danger:hover {
+  background-color: #c82333; /* Darker shade of danger color */
+}
+
+.lifecycle-btn-success:hover {
+  background-color: #218838; /* Darker shade of success color */
+}
+
+/* Button link color */
+.lifecycle-btn-success a {
+  color: #fff; /* White text color */
+}
+
+/* Button border */
+.lifecycle-btn-success {
+  border: 1px solid #0b0b0b; /* Border color */
+  background: rgb(19, 113, 2);
+  color: #fff;
+}
+
+.lifecycle-btn-success {
+  background-color: #218838; /* Darker shade of success color */
+}
+

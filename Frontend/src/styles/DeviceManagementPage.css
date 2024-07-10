@@ -1,0 +1,198 @@
+/* Container styles */
+.container {
+  background-color: #f0f0f0; /* Light gray background */
+  padding: 20px;
+}
+
+/* Page title styles */
+.page-title {
+  color: #333; /* Dark text color */
+}
+
+/* Card container styles */
+.card-container {
+  background-color: #fff; /* White background */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+/* Form styles */
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* Input styles */
+.form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc; /* Light border */
+  border-radius: 5px;
+}
+
+/* Button styles */
+.btn-primary,
+.btn-danger,
+.btn-success {
+  border: none;
+  border-radius: 5px;
+  padding: 6px 12px; /* Even smaller padding */
+  color: #fff; /* White text color */
+  cursor: pointer;
+  margin-right: 10px; /* Added margin-right for gap between buttons */
+}
+
+.btn-primary:hover {
+  background-color: #0056b3; /* Darker shade of primary color */
+}
+
+.btn-danger:hover {
+  background-color: #c82333; /* Darker shade of danger color */
+}
+
+.btn-success:hover {
+  background-color: #218838; /* Darker shade of success color */
+}
+
+/* Table styles */
+.table {
+  background-color: #fff; /* White background */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  width: 100%; /* Full width */
+  border-collapse: collapse; /* Collapse border spacing */
+}
+
+/* Table header styles */
+.table th {
+  background-color: #007bff; /* Primary color */
+  color: #fff; /* White text color */
+  padding: 10px;
+}
+
+/* Table body styles */
+.table td {
+  padding: 10px;
+}
+
+/* Colorful table data */
+.table tbody tr:nth-child(odd) {
+  background-color: #f2f2f2; /* Light gray background for odd rows */
+}
+
+.table tbody tr:hover {
+  background-color: #e3e3e3; /* Darker shade on hover */
+}
+
+/* Selected device ticket styles */
+.selected-device-ticket {
+  background-color: #fff; /* White background */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  padding: 20px;
+  margin-top: 20px;
+}
+
+/* Close button styles */
+.close-btn {
+  background-color: #dc3545; /* Danger color */
+  border: none;
+  border-radius: 5px;
+  color: #fff; /* White text color */
+  cursor: pointer;
+  padding: 6px 12px; /* Even smaller padding */
+  margin-bottom: 10px;
+}
+
+.close-btn:hover {
+  background-color: #bd2130; /* Darker shade of danger color on hover */
+}
+
+/* Selected device ticket title styles */
+.selected-device-ticket .ticket-title {
+  color: #333; /* Dark text color */
+  border-bottom: 2px solid #ccc; /* Adding a bottom border for separation */
+  padding-bottom: 10px;
+}
+
+/* Selected device ticket text styles */
+.selected-device-ticket .ticket-text {
+  margin-bottom: 10px;
+}
+
+/* Selected device ticket styles */
+.selected-device-ticket {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 400px;
+  z-index: 999;
+}
+
+/* Close button styles */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #dc3545;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  padding: 6px 12px;
+}
+
+.close-btn:hover {
+  background-color: #bd2130;
+}
+
+/* Selected device details styles */
+.selected-device-details {
+  margin-top: 40px; /* Adjust the margin-top as needed */
+}
+
+/* Update button styles */
+.btn-update {
+  background-color: #1d1e20; /* New color for the button */
+  border: none;
+  border-radius: 5px;
+  padding: 6px 12px; /* Even smaller padding */
+  color: #fff; /* White text color */
+  cursor: pointer;
+  margin-right: 10px; /* Added margin-right for gap between buttons */
+  display: inline-block; /* Ensure the button is displayed as a block element */
+}
+
+.btn-update:hover {
+  background-color: #5a6268; /* Darker shade of button color on hover */
+}
+
+/* Update button link text color */
+.btn-update a {
+  color: #fff; /* White text color */
+}
+
+.btn-report {
+  border: 1px solid #0b0b0b; /* Border color */
+  background: rgb(19, 113, 2);
+  color: #fff
+}
+
+/* Device Management Page Title */
+.page-title {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-size: 32px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  text-transform: uppercase;
+  border-bottom: 2px solid #ccc; /* Adding a bottom border for separation */
+  padding-bottom: 10px;
+}
