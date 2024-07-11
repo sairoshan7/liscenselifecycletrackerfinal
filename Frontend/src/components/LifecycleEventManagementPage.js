@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DeviceService from '../services/DeviceService';
 
@@ -12,47 +11,61 @@ const LifecycleEventManagementPage = () => {
   };
 
   const [newEvent, setNewEvent] = useState(initialEventState);
-  const [deviceId, setDeviceId] = useState('');
+  const [devices, setDevices] = useState([]);
+  const [selectedDeviceId, setSelectedDeviceId] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [events, setEvents] = useState([]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    if (name === 'deviceId') {
-      setDeviceId(value);
-    } else {
-        setNewEvent(prevEvent => ({
-        ...prevEvent,
-        [name]: value
-      }));
+  useEffect(() => {
+    fetchDevices();
+  }, []);
+
+  const fetchDevices = async () => {
+    try {
+      setLoading(true);
+      const devices = await DeviceService.getAllDevices();
+      setDevices(devices);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching devices:', error);
+      setError('Failed to fetch devices');
+      setLoading(false);
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewEvent(prevEvent => ({
+      ...prevEvent,
+      [name]: value
+    }));
+  };
+
+  const handleDeviceChange = (e) => {
+    setSelectedDeviceId(e.target.value);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Ensure deviceId is provided before adding an event
-    if (!deviceId) {
-      alert('Please enter a Device ID');
+    if (!selectedDeviceId) {
+      alert('Please select a device');
       return;
     }
 
-    const eventData = {
-      ...newEvent // Assuming deviceId needs to be an integer
-    };
-
-    DeviceService.addLifecycleEventToDevice(deviceId, eventData)
-
-      .then(response => {
-        setEvents([...events, response]);
-        setNewEvent(initialEventState);
-        alert('Event added successfully');
-      })
-      .catch(error => {
-        console.error('Error adding event:', error);
-        alert('Failed to add event');
-      });
+    try {
+      setLoading(true);
+      const response = await DeviceService.addLifecycleEventToDevice(selectedDeviceId, newEvent);
+      setEvents([...events, response]);
+      setNewEvent(initialEventState);
+      setLoading(false);
+      alert('Event added successfully');
+    } catch (error) {
+      console.error('Error adding event:', error);
+      setLoading(false);
+      alert('Failed to add event');
+    }
   };
 
   return (
@@ -77,8 +90,20 @@ const LifecycleEventManagementPage = () => {
             <input type="text" className="form-control" id="category" name="category" value={newEvent.category} onChange={handleInputChange} required />
           </div>
           <div className="mb-3">
-            <label htmlFor="deviceId" className="form-label">Device ID:</label>
-            <input type="text" className="form-control" id="deviceId" name="deviceId" value={deviceId} onChange={(e) => setDeviceId(e.target.value)} required />
+            <label htmlFor="selectedDeviceId" className="form-label">Select Device:</label>
+            <select
+              className="form-select"
+              id="selectedDeviceId"
+              name="selectedDeviceId"
+              value={selectedDeviceId}
+              onChange={handleDeviceChange}
+              required
+            >
+              <option value="">Select Device</option>
+              {devices.map(device => (
+                <option key={device.deviceId} value={device.deviceId}>{device.deviceName}</option>
+              ))}
+            </select>
           </div>
           <button type="submit" className="btn btn-primary">Add Event</button>
         </form>

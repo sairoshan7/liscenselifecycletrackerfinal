@@ -1,10 +1,6 @@
-
-
-
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import "../styles/Home.css"; // Import custom CSS for additional styling
- 
 
 import lifecycleImage from '../images/lifecycle.jpg';
 import complianceImage from '../images/compliance.jpg';

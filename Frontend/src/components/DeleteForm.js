@@ -1,27 +1,27 @@
 import React, { useState } from 'react';
 import DeviceService from '../services/DeviceService';
-
+ 
 const DeleteDeviceForm = () => {
   const [deviceId, setDeviceId] = useState('');
   const [error, setError] = useState(null);
   const [responseMessage, setResponseMessage] = useState('');
-
+ 
   const handleDelete = async (e) => {
     e.preventDefault();
     try {
       await DeviceService.deleteDevice(deviceId);
-      setResponseMessage('Device deleted successfully.');
+      alert('Device deleted successfully.');
       setDeviceId(''); // Clear input after successful deletion
     } catch (error) {
       console.error('Error deleting device:', error);
       setError('Failed to delete device.');
     }
   };
-
+ 
   const handleDeviceIdChange = (e) => {
     setDeviceId(e.target.value);
   };
-
+ 
   return (
     <div className="container mt-4">
       <div className="row justify-content-center">
@@ -53,5 +53,5 @@ const DeleteDeviceForm = () => {
     </div>
   );
 };
-
+ 
 export default DeleteDeviceForm;

@@ -5,7 +5,9 @@ import java.util.List;
 import com.training.licenselifecycletracker.dto.DeviceDTO;
 import com.training.licenselifecycletracker.dto.ReplaceDTO;
 import com.training.licenselifecycletracker.dto.SoftwareDTO;
+import com.training.licenselifecycletracker.entities.Device;
 import com.training.licenselifecycletracker.entities.Software;
+import com.training.licenselifecycletracker.entities.User;
 
 public interface RegularUserService {
 	
@@ -18,5 +20,9 @@ public interface RegularUserService {
 		String requestRenew(SoftwareDTO softwareDTO);
 		
 		String requestReplacement(ReplaceDTO replaceDTO);
+		
+		public List<Device> searchDevices(String deviceName, String status, String deviceType) ;
+		
+		public List<User> getAllUsers() ;
 
 }

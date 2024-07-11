@@ -1,15 +1,35 @@
+// UserViewSoftware.js
+
 import React, { useState, useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import RegularUserService from '../services/RegularUserService';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 import AuthService from '../services/auth.service';
 
 const UserViewSoftware = () => {
   const [deviceName, setDeviceName] = useState('');
   const [software, setSoftware] = useState([]);
+  const [devices, setDevices] = useState([]);
   const [errorState, setErrorState] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  // Function to fetch software by device name
+  useEffect(() => {
+    fetchDevices();
+  }, []);
+
+  const fetchDevices = async () => {
+    try {
+      const currentUser = AuthService.getCurrentUser();
+      if (currentUser) {
+        const userId = currentUser.id;
+        const devicesResponse = await RegularUserService.viewDevices(userId);
+        setDevices(devicesResponse);
+      }
+    } catch (error) {
+      console.error('Error fetching devices:', error);
+      alert('An error occurred while fetching devices');
+    }
+  };
+
   const fetchSoftwareByDeviceName = async () => {
     try {
       const response = await RegularUserService.viewSoftwareByDeviceName(deviceName);
@@ -22,7 +42,6 @@ const UserViewSoftware = () => {
     }
   };
 
-  // Function to handle renewal request
   const handleRenewalRequest = async (softwareId, softwareName, version) => {
     try {
       const softwareDTO = {
@@ -45,7 +64,6 @@ const UserViewSoftware = () => {
     }
   };
 
-  // Handle form submission to fetch software
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     if (deviceName.trim() === '') {
@@ -61,14 +79,18 @@ const UserViewSoftware = () => {
       <h2 className="mb-4">View Software by Device Name</h2>
       <form onSubmit={handleFormSubmit} className="mb-4">
         <div className="form-group">
-          <label htmlFor="deviceName">Enter Device Name:</label>
-          <input
-            type="text"
-            className="form-control"
+          <label htmlFor="deviceName">Select Device:</label>
+          <select
+            className="form-select"
             id="deviceName"
             value={deviceName}
             onChange={(e) => setDeviceName(e.target.value)}
-          />
+          >
+            <option value="">Select Device</option>
+            {devices.map(device => (
+              <option key={device.deviceId} value={device.deviceName}>{device.deviceName}</option>
+            ))}
+          </select>
         </div>
         <button type="submit" className="btn btn-primary">
           Search Software

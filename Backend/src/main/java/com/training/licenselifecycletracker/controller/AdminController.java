@@ -19,15 +19,18 @@ import com.training.licenselifecycletracker.dto.DeviceDTO;
 import com.training.licenselifecycletracker.dto.LifecycleEventDTO;
 import com.training.licenselifecycletracker.dto.SoftwareDTO;
 import com.training.licenselifecycletracker.entities.Role;
+import com.training.licenselifecycletracker.entities.User;
 import com.training.licenselifecycletracker.exceptions.UserNotFoundException;
 import com.training.licenselifecycletracker.service.DeviceService;
+import com.training.licenselifecycletracker.service.RegularUserService;
 
 @RestController
 @RequestMapping("/api/admin")
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class AdminController {
 
-     
+     @Autowired
+     RegularUserService regularUserService;
 
     @Autowired
     DeviceService deviceService;
@@ -91,5 +94,11 @@ public class AdminController {
         }
     }
     
+    
+    @GetMapping("/getallusers")
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = regularUserService.getAllUsers(); // Assuming you have a userService to fetch users
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
     
 }

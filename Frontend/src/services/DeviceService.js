@@ -91,19 +91,15 @@ const updateDevice = async (deviceId, deviceDTO) => {
 };
 
 // Delete device with token in headers
-const deleteDevice = async (deviceId) => {
-  try {
-    const response = await axios.post(`${BASE_URL}/admin/delete`,deviceId,  {
-      headers: {
-        ...authHeader(),
-        'Access-Control-Allow-Origin': '*', // Ensure CORS is configured properly
-        // Add any additional headers if needed
-      }
-    });
-    return response.data;
-  } catch (err) {
-    throw err;
-  }
+const deleteDevice = (id) => {
+  return axios.post(`${BASE_URL}/admin/delete`,id, {
+    headers: {
+      'Content-Type':'application/json',    
+  'Access-Control-Allow-Origin': '*',
+      ...authHeader()
+    }
+     // Set the payload as params
+  });
 };
 
 // Get device by ID with token in headers
@@ -144,6 +140,7 @@ const addSoftwareToDevice = async (deviceId, softwareDTO) => {
 const addLifecycleEventToDevice = async (deviceId, lifecycleEventDTO) => {
   try {
     // First, fetch the device details by deviceId
+    console.log(deviceId);
     const response2 = await getDeviceById(deviceId);
     console.log(response2);
     const device = response2;
@@ -165,6 +162,27 @@ const addLifecycleEventToDevice = async (deviceId, lifecycleEventDTO) => {
   }
 };
 
+const getAllUsers = async () => {
+  try {
+    const response = await axiosInstance.get(`${BASE_URL}/admin/getallusers`, {
+      headers: { ...authHeader() }
+    });
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+const getAllDevices = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/admin/getalldevice`, {
+      headers: { ...authHeader() }
+    });
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
 
 const DeviceService = {
   addDevice,
@@ -173,6 +191,8 @@ const DeviceService = {
   getDeviceById,
   addSoftwareToDevice,
   addLifecycleEventToDevice,
+  getAllUsers,
+  getAllDevices
 };
 
 export default DeviceService;

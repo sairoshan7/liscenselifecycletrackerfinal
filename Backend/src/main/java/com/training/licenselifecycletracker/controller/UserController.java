@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.training.licenselifecycletracker.dto.DeviceDTO;
 import com.training.licenselifecycletracker.dto.ReplaceDTO;
 import com.training.licenselifecycletracker.dto.SoftwareDTO;
+import com.training.licenselifecycletracker.entities.Device;
 import com.training.licenselifecycletracker.service.DeviceService;
 import com.training.licenselifecycletracker.service.RegularUserService;
 
@@ -70,5 +72,35 @@ public class UserController {
         return regularUserService.requestReplacement(replaceDTO);
     }
     
+    @GetMapping("/devices/searchByName")
+    public ResponseEntity<List<Device>> searchDevicesByName(@RequestParam String deviceName) {
+        List<Device> devices = regularUserService.searchDevices(deviceName, null, null);
+        if (!devices.isEmpty()) {
+            return new ResponseEntity<>(devices, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/devices/searchByStatus")
+    public ResponseEntity<List<Device>> searchDevicesByStatus(@RequestParam String status) {
+        List<Device> devices = regularUserService.searchDevices(null, status, null);
+        if (!devices.isEmpty()) {
+            return new ResponseEntity<>(devices, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/devices/searchByType")
+    public ResponseEntity<List<Device>> searchDevicesByType(@RequestParam String deviceType) {
+        List<Device> devices = regularUserService.searchDevices(null, null, deviceType);
+        if (!devices.isEmpty()) {
+            return new ResponseEntity<>(devices, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     
 }

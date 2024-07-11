@@ -17,6 +17,7 @@ import com.training.licenselifecycletracker.entities.Device;
 import com.training.licenselifecycletracker.entities.LifecycleEvent;
 import com.training.licenselifecycletracker.entities.RequestLog;
 import com.training.licenselifecycletracker.entities.Software;
+import com.training.licenselifecycletracker.entities.User;
 import com.training.licenselifecycletracker.repositories.DeviceRepository;
 import com.training.licenselifecycletracker.repositories.LifecycleEventRepository;
 import com.training.licenselifecycletracker.repositories.RequestLogRepository;
@@ -110,4 +111,23 @@ public class RegularUserServiceImpl implements RegularUserService {
 		return "Replacement Request send  succesfully";
 	}
 
+	
+	
+	 public List<Device> searchDevices(String deviceName, String status, String deviceType) {
+	        if (deviceName != null) {
+	            return deviceRepository.findByDeviceName(deviceName);
+	        } else if (status != null) {
+	            return deviceRepository.findByStatus(status);
+	        } else if (deviceType != null) {
+	            return deviceRepository.findByDeviceType(deviceType);
+	        } else {
+	            return (List<Device>) deviceRepository.findAll();
+	        }
+	    }
+	 
+	 
+	 @Override
+	    public List<User> getAllUsers() {
+	        return (List<User>) userRepository.findAll(); // Assuming findAll() method fetches all users from repository
+	    }
 }

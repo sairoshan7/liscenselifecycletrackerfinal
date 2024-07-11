@@ -2,6 +2,7 @@ package com.training.licenselifecycletracker.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,6 +100,18 @@ public class TechnicalSupportServiceImpl implements TechnicalService{
 
 	        // Map the updated device entity back to DeviceDTO and return
 	        return modelMapper.map(deviceToUpdate, DeviceDTO.class);
+	    }
+	 
+	 	@Override
+	    public boolean deleteRequestLogById(Integer id) {
+	        Optional<RequestLog> requestLogOptional = requestLogRepository.findById(id);
+	        
+	        if (requestLogOptional.isPresent()) {
+	            requestLogRepository.deleteById(id);
+	            return true; // Deletion successful
+	        } else {
+	            return false; // Request log not found
+	        }
 	    }
 
 }

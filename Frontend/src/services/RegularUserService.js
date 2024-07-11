@@ -50,11 +50,47 @@ const requestReplacement = async (replaceDTO) => {
   }
 };
 
+const searchDevicesByName = async (deviceName) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/devices/searchByName?deviceName=${deviceName}`, {
+      headers: { ...authHeader() }
+    });
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+const searchDevicesByStatus = async (status) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/devices/searchByStatus?status=${status}`, {
+      headers: { ...authHeader() }
+    });
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+const searchDevicesByType = async (deviceType) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/devices/searchByType?deviceType=${deviceType}`, {
+      headers: { ...authHeader() }
+    });
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
 const RegularUserService = {
   viewDevices,
   viewSoftwareByDeviceName,
   requestRenew,
   requestReplacement,
+  searchDevicesByName,
+  searchDevicesByStatus,
+  searchDevicesByType
   // Add other functions for searching devices and software as needed
 };
 

@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DeviceService from '../services/DeviceService';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -14,12 +13,27 @@ const DeviceManagementPage = () => {
     dateOfLastReplacement: '',
     user: {
       userId: null
-     
     }
-   
   };
 
   const [newDevice, setNewDevice] = useState(initialDeviceState);
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    // Fetch all users when component mounts
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = () => {
+    DeviceService.getAllUsers()
+      .then(response => {
+        setUsers(response); // Set the retrieved users to the state
+      })
+      .catch(error => {
+        console.error('Error fetching users:', error);
+        alert('An error occurred while fetching users');
+      });
+  };
 
   const handleDeviceInputChange = (e) => {
     const { name, value } = e.target;
@@ -87,18 +101,23 @@ const DeviceManagementPage = () => {
               <option value="Expired">Expired</option>
               <option value="Unsupported">Unsupported</option>
             </select>
-            <div className="form-group">
-            <label htmlFor="dateOfLastReplacement">Date of replacement:</label>
+          </div>
+          <div className="form-group">
+            <label htmlFor="dateOfLastReplacement">Date of Last Replacement:</label>
             <input type="date" className="form-control" id="dateOfLastReplacement" name="dateOfLastReplacement" value={newDevice.dateOfLastReplacement} onChange={handleDeviceInputChange} required />
           </div>
+
+          {/* Dropdown for selecting user */}
+          <div className="form-group">
+            <label htmlFor="userId">User:</label>
+            <select className="form-control" id="userId" name="user.userId" value={newDevice.user.userId} onChange={handleDeviceInputChange}>
+              <option value="">Select User</option>
+              {users.map(user => (
+                <option key={user.userId} value={user.userId}>{user.username}</option>
+              ))}
+            </select>
           </div>
 
-          {/* User details */}
-          <div className="form-group">
-            <label htmlFor="userId">User ID:</label>
-            <input type="text" className="form-control" id="userId" name="user.userId" value={newDevice.user.userId} onChange={handleDeviceInputChange} />
-          </div>
-         
           <button type="submit" className="btn btn-primary">Add Device</button>
         </form>
       </div>

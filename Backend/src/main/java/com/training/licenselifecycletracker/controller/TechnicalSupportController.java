@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ import com.training.licenselifecycletracker.dto.SoftwareDTO;
 import com.training.licenselifecycletracker.dto.SoftwareUpdateDTO;
 import com.training.licenselifecycletracker.dto.UpdateFaultLogRequestDTO;
 import com.training.licenselifecycletracker.entities.RequestLog;
+import com.training.licenselifecycletracker.repositories.RequestLogRepository;
 import com.training.licenselifecycletracker.service.DeviceService;
 import com.training.licenselifecycletracker.service.TechnicalService;
 
@@ -34,6 +36,9 @@ public class TechnicalSupportController {
    
    @Autowired
    TechnicalService technicalService;
+   
+   @Autowired
+   RequestLogRepository requestLogRepository;
    
    
  
@@ -57,11 +62,7 @@ public class TechnicalSupportController {
        }
    }
 
-//   @GetMapping("/support/end-of-support-dates")
-//   public ResponseEntity<List<SoftwareDTO>> getEndOfSupportDates() {
-//       List<SoftwareDTO> softwareDTOList = deviceService.viewEndOfSupportDates();
-//       return new ResponseEntity<>(softwareDTOList, HttpStatus.OK);
-//   }
+
    
    @GetMapping("/support/end-of-support-dates")
    public ResponseEntity<List<SoftwareDTO>> viewEndOfSupportDates() {
@@ -87,6 +88,22 @@ public class TechnicalSupportController {
        DeviceDTO updatedDevice = technicalService.updateSoftwareDates(softwareupdatedto);
        return new ResponseEntity<>(updatedDevice, HttpStatus.OK);
    }
+   
+   
+   @DeleteMapping("/requestlog/{id}")
+   public ResponseEntity<String> deleteRequestLogById(@PathVariable Integer id) {
+       // Assuming technicalService is an instance of your service class that handles deletion
+       boolean deleted = technicalService.deleteRequestLogById(id);
+       
+       if (deleted) {
+           return new ResponseEntity<>("Request log with ID " + id + " deleted successfully", HttpStatus.OK);
+       } else {
+           return new ResponseEntity<>("Request log with ID " + id + " not found", HttpStatus.NOT_FOUND);
+       }
+   }
+
+   
+   
    
    
    

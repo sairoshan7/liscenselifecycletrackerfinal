@@ -97,6 +97,20 @@ const viewAllRequestLog = async () => {
   }
 };
 
+const deleteRequestLogById = async (id) => {
+  try {
+    const response = await axios.delete(`${BASE_URL}/requestlog/${id}`, {
+      headers: {
+        ...authHeader(),
+      },
+    });
+    
+    return response.data;
+  } catch (error) {
+    console.error(`Error deleting request log with ID ${id}:`, error);
+    throw error;
+  }
+};
 
 const TechnicalSupportService = {
   logFault,
@@ -105,6 +119,7 @@ const TechnicalSupportService = {
   updateDeviceDates,
   updateSoftwareDates,
   viewAllRequestLog,
+  deleteRequestLogById
 };
 
 export default TechnicalSupportService;

@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 import TechnicalSupportService from '../services/TechnicalSupportService'; // Import TechnicalSupportService
 
 const RenewForm = () => {
-    const { assetid } = useParams(); // Get assetId from URL params
+    const { logId, assetid } = useParams(); // Get logId and assetId from URL params
     const [expirationDate, setExpirationDate] = useState('');
     const [endOfSupportDate, setEndOfSupportDate] = useState('');
 
@@ -19,15 +19,19 @@ const RenewForm = () => {
 
             // Call updateSoftwareDates API
             console.log(softwareUpdateDTO);
-            const response = await TechnicalSupportService.updateSoftwareDates(softwareUpdateDTO);
-            console.log('Update Software Response:', response); // Log response if needed
+            const updateResponse = await TechnicalSupportService.updateSoftwareDates(softwareUpdateDTO);
+            console.log('Update Software Response:', updateResponse); // Log response if needed
 
-            // Optionally, add feedback to the user on successful update
-            alert('Software dates updated successfully!');
+            // Delete request log after successful update
+            const deleteResponse = await TechnicalSupportService.deleteRequestLogById(logId);
+            console.log('Delete Request Log Response:', deleteResponse); // Log response if needed
+
+            // Optionally, add feedback to the user on successful update and deletion
+            alert('Software dates updated successfully ');
         } catch (error) {
-            console.error('Error updating software dates:', error);
+            console.error('Error updating software dates ', error);
             // Handle error scenario as needed (e.g., show error message to user)
-            alert('Failed to update software dates.');
+            alert('Failed to update software dates');
         }
     };
 

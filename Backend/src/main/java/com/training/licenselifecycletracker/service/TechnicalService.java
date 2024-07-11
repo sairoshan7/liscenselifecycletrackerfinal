@@ -12,5 +12,7 @@ public interface TechnicalService {
 	List<RequestLog> getAllRequestLogs();
     DeviceDTO updateDeviceDates(HardwareUpdateDTO hardwareupdatedto);
 	DeviceDTO updateSoftwareDates(SoftwareUpdateDTO softwareupdatedto);
+	
+	 public boolean deleteRequestLogById(Integer id);
 
 }

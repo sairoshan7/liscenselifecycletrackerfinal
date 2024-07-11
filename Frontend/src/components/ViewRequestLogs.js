@@ -26,23 +26,20 @@ const ViewRequestLogs = () => {
     }
   };
 
-  const handleConfirmAction = (assetid) => {
-    // Implement logic to confirm action for the given assetid
-    console.log(`Confirm action for asset ID ${assetid}`);
-
+  const handleConfirmAction = (logId, assetid) => {
     // Navigate to RenewForm or ReplaceForm based on the type of action
-    const log = requestLogs.find(log => log.assetid === assetid);
+    const log = requestLogs.find(log => log.assetid === assetid && log.logId === logId);
     if (!log) {
-      console.error('Log not found for asset ID:', assetid);
+      console.error('Log not found for asset ID and log ID:', assetid, logId);
       return;
     }
 
     switch (log.type) {
       case 'Renew':
-        navigate(`/renew/${assetid}`); // Navigate to RenewForm with assetid
+        navigate(`/renew/${logId}/${assetid}`); // Navigate to RenewForm with logId and assetid
         break;
       case 'Replace':
-        navigate(`/replace/${assetid}`); // Navigate to ReplaceForm with assetid
+        navigate(`/replace/${logId}/${assetid}`); // Navigate to ReplaceForm with logId and assetid
         break;
       default:
         console.error(`Unknown log type: ${log.type}`);
@@ -83,7 +80,7 @@ const ViewRequestLogs = () => {
               <td>
                 <button
                   className="btn btn-primary btn-sm"
-                  onClick={() => handleConfirmAction(log.assetid)}
+                  onClick={() => handleConfirmAction(log.logId, log.assetid)}
                 >
                   Confirm
                 </button>

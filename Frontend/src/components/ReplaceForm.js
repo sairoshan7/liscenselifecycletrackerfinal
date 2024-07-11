@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 import TechnicalSupportService from '../services/TechnicalSupportService'; // Import TechnicalSupportService
 
 const ReplaceForm = () => {
-    const { assetid } = useParams(); // Get assetId from URL params
+    const { logId, assetid } = useParams(); // Get logId and assetId from URL params
     const [endOfLifeDate, setEndOfLifeDate] = useState('');
     const [endOfSupportDate, setEndOfSupportDate] = useState('');
 
@@ -21,12 +21,16 @@ const ReplaceForm = () => {
             const response = await TechnicalSupportService.updateDeviceDates(hardwareUpdateDTO);
             console.log('Update Device Dates Response:', response); // Log response if needed
 
-            // Optionally, add feedback to the user on successful update
-            alert('Device dates updated successfully!');
+            // Delete request log after successful update
+            const deleteResponse = await TechnicalSupportService.deleteRequestLogById(logId);
+            console.log('Delete Request Log Response:', deleteResponse); // Log response if needed
+
+            // Optionally, add feedback to the user on successful update and deletion
+            alert('Device dates updated successfully');
         } catch (error) {
-            console.error('Error updating device dates:', error);
+            console.error('Error updating device dates ', error);
             // Handle error scenario as needed (e.g., show error message to user)
-            alert('Failed to update device dates.');
+            alert('Failed to update device dates or delete request log.');
         }
     };
 

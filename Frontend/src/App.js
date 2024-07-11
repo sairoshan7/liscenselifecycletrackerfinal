@@ -171,8 +171,8 @@ const App = () => {
           <Route path="/update-lifecycleEvent/:eventId" element={<UpdateLifecycleEvent />} />
           <Route path="/technicalsupport/view-end-of-support-dates" element={<ViewEndOfSupportDates />} />
           <Route path="/technicalsupport/viewallrequestlogs" element={<ViewRequestLogs />} />
-          <Route path="/renew/:assetid" element={<RenewForm />} />
-          <Route path="/replace/:assetid" element={<ReplaceForm />} />
+          <Route path="/renew/:logId/:assetid" element={<RenewForm />} />
+          <Route path="/replace/:logId/:assetid" element={<ReplaceForm />} />
         </Routes>
       </div>
     </div>
