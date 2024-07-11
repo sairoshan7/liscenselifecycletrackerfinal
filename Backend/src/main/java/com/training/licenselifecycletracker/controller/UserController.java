@@ -18,6 +18,7 @@ import com.training.licenselifecycletracker.dto.DeviceDTO;
 import com.training.licenselifecycletracker.dto.ReplaceDTO;
 import com.training.licenselifecycletracker.dto.SoftwareDTO;
 import com.training.licenselifecycletracker.entities.Device;
+import com.training.licenselifecycletracker.exceptions.DeviceNotFoundException;
 import com.training.licenselifecycletracker.service.DeviceService;
 import com.training.licenselifecycletracker.service.RegularUserService;
 
@@ -73,7 +74,7 @@ public class UserController {
     }
     
     @GetMapping("/devices/searchByName")
-    public ResponseEntity<List<Device>> searchDevicesByName(@RequestParam String deviceName) {
+    public ResponseEntity<List<Device>> searchDevicesByName(@RequestParam String deviceName) throws DeviceNotFoundException {
         List<Device> devices = regularUserService.searchDevices(deviceName, null, null);
         if (!devices.isEmpty()) {
             return new ResponseEntity<>(devices, HttpStatus.OK);
@@ -83,7 +84,7 @@ public class UserController {
     }
 
     @GetMapping("/devices/searchByStatus")
-    public ResponseEntity<List<Device>> searchDevicesByStatus(@RequestParam String status) {
+    public ResponseEntity<List<Device>> searchDevicesByStatus(@RequestParam String status) throws DeviceNotFoundException {
         List<Device> devices = regularUserService.searchDevices(null, status, null);
         if (!devices.isEmpty()) {
             return new ResponseEntity<>(devices, HttpStatus.OK);
@@ -93,7 +94,7 @@ public class UserController {
     }
 
     @GetMapping("/devices/searchByType")
-    public ResponseEntity<List<Device>> searchDevicesByType(@RequestParam String deviceType) {
+    public ResponseEntity<List<Device>> searchDevicesByType(@RequestParam String deviceType) throws DeviceNotFoundException {
         List<Device> devices = regularUserService.searchDevices(null, null, deviceType);
         if (!devices.isEmpty()) {
             return new ResponseEntity<>(devices, HttpStatus.OK);

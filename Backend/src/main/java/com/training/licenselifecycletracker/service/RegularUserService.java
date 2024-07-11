@@ -8,6 +8,7 @@ import com.training.licenselifecycletracker.dto.SoftwareDTO;
 import com.training.licenselifecycletracker.entities.Device;
 import com.training.licenselifecycletracker.entities.Software;
 import com.training.licenselifecycletracker.entities.User;
+import com.training.licenselifecycletracker.exceptions.DeviceNotFoundException;
 
 public interface RegularUserService {
 	
@@ -21,7 +22,7 @@ public interface RegularUserService {
 		
 		String requestReplacement(ReplaceDTO replaceDTO);
 		
-		public List<Device> searchDevices(String deviceName, String status, String deviceType) ;
+		public List<Device> searchDevices(String deviceName, String status, String deviceType)throws DeviceNotFoundException ;
 		
 		public List<User> getAllUsers() ;
 

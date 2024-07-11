@@ -22,6 +22,8 @@ import com.training.licenselifecycletracker.dto.SoftwareDTO;
 import com.training.licenselifecycletracker.dto.SoftwareUpdateDTO;
 import com.training.licenselifecycletracker.dto.UpdateFaultLogRequestDTO;
 import com.training.licenselifecycletracker.entities.RequestLog;
+import com.training.licenselifecycletracker.exceptions.DeviceNotFoundException;
+import com.training.licenselifecycletracker.exceptions.RequestLogNotFoundException;
 import com.training.licenselifecycletracker.repositories.RequestLogRepository;
 import com.training.licenselifecycletracker.service.DeviceService;
 import com.training.licenselifecycletracker.service.TechnicalService;
@@ -42,25 +44,7 @@ public class TechnicalSupportController {
    
    
  
-   @PostMapping("/support/faults")
-   public ResponseEntity<String> logFault(@RequestBody LogFaultRequestDTO logFaultRequest) {
-       try {
-           String result = deviceService.logFault(logFaultRequest);
-           return new ResponseEntity<>(result, HttpStatus.OK);
-       } catch (RuntimeException e) {
-           return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-       }
-   }
 
-   @PostMapping("/support/faults/update")
-   public ResponseEntity<String> updateFaultLog(@RequestBody UpdateFaultLogRequestDTO updateFaultLogRequest) {
-       try {
-           String result = deviceService.updateFaultLog(updateFaultLogRequest);
-           return new ResponseEntity<>(result, HttpStatus.OK);
-       } catch (RuntimeException e) {
-           return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-       }
-   }
 
 
    
@@ -78,20 +62,20 @@ public class TechnicalSupportController {
    
    
    @PostMapping("/update/device")
-   public ResponseEntity<DeviceDTO> updateDeviceDates(@RequestBody HardwareUpdateDTO hardwareupdatedto) {
+   public ResponseEntity<DeviceDTO> updateDeviceDates(@RequestBody HardwareUpdateDTO hardwareupdatedto) throws DeviceNotFoundException {
        DeviceDTO updatedDevice = technicalService.updateDeviceDates(hardwareupdatedto);
        return new ResponseEntity<>(updatedDevice, HttpStatus.OK);
    }
    
    @PostMapping("/update/software")
-   public ResponseEntity<DeviceDTO> updateSoftwareDates(@RequestBody SoftwareUpdateDTO softwareupdatedto) {
+   public ResponseEntity<DeviceDTO> updateSoftwareDates(@RequestBody SoftwareUpdateDTO softwareupdatedto) throws DeviceNotFoundException {
        DeviceDTO updatedDevice = technicalService.updateSoftwareDates(softwareupdatedto);
        return new ResponseEntity<>(updatedDevice, HttpStatus.OK);
    }
    
    
    @DeleteMapping("/requestlog/{id}")
-   public ResponseEntity<String> deleteRequestLogById(@PathVariable Integer id) {
+   public ResponseEntity<String> deleteRequestLogById(@PathVariable Integer id) throws RequestLogNotFoundException {
        // Assuming technicalService is an instance of your service class that handles deletion
        boolean deleted = technicalService.deleteRequestLogById(id);
        

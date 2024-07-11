@@ -20,6 +20,7 @@ import com.training.licenselifecycletracker.dto.LifecycleEventDTO;
 import com.training.licenselifecycletracker.dto.SoftwareDTO;
 import com.training.licenselifecycletracker.entities.Role;
 import com.training.licenselifecycletracker.entities.User;
+import com.training.licenselifecycletracker.exceptions.DeviceNotFoundException;
 import com.training.licenselifecycletracker.exceptions.UserNotFoundException;
 import com.training.licenselifecycletracker.service.DeviceService;
 import com.training.licenselifecycletracker.service.RegularUserService;
@@ -42,18 +43,18 @@ public class AdminController {
     }
 
     @PutMapping("/update/{deviceId}")
-    public ResponseEntity<DeviceDTO> updateDevice(@PathVariable Integer deviceId, @RequestBody DeviceDTO deviceDTO) {
+    public ResponseEntity<DeviceDTO> updateDevice(@PathVariable Integer deviceId, @RequestBody DeviceDTO deviceDTO) throws DeviceNotFoundException {
         deviceDTO.setDeviceId(deviceId); // Set the deviceId from the path variable
         DeviceDTO updatedDevice = deviceService.updateDevice(deviceDTO);
         return new ResponseEntity<>(updatedDevice, HttpStatus.OK);
     }
     @GetMapping("/getdevice/{deviceId}")
-    public ResponseEntity<DeviceDTO> getDeviceById(@PathVariable Integer deviceId) {
+    public ResponseEntity<DeviceDTO> getDeviceById(@PathVariable Integer deviceId) throws DeviceNotFoundException {
         DeviceDTO device = deviceService.getDeviceById(deviceId);
         if (device != null) {
             return new ResponseEntity<>(device, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            throw new DeviceNotFoundException("Device not found with id: " + deviceId);
         }
     }
 
@@ -64,19 +65,19 @@ public class AdminController {
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<Void> deleteDevice(@RequestBody Integer deviceId) {
+    public ResponseEntity<Void> deleteDevice(@RequestBody Integer deviceId) throws DeviceNotFoundException {
         deviceService.deleteDevice(deviceId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PostMapping("/{deviceId}/addSoftware")
-    public ResponseEntity<DeviceDTO> addSoftwareToDevice(@PathVariable Integer deviceId, @RequestBody SoftwareDTO softwareDTO) {
+    public ResponseEntity<DeviceDTO> addSoftwareToDevice(@PathVariable Integer deviceId, @RequestBody SoftwareDTO softwareDTO) throws DeviceNotFoundException {
         DeviceDTO deviceWithSoftware = deviceService.addSoftwareToDevice(deviceId, softwareDTO);
         return new ResponseEntity<>(deviceWithSoftware, HttpStatus.OK);
     }	
 
     @PostMapping("/{deviceId}/lifecycle-events")
-    public ResponseEntity<DeviceDTO> addLifecycleEventToDevice(@PathVariable Integer deviceId, @RequestBody LifecycleEventDTO lifecycleEventDTO) {
+    public ResponseEntity<DeviceDTO> addLifecycleEventToDevice(@PathVariable Integer deviceId, @RequestBody LifecycleEventDTO lifecycleEventDTO) throws DeviceNotFoundException {
         DeviceDTO deviceWithLifecycleEvent = deviceService.addLifecycleEventToDevice(deviceId, lifecycleEventDTO);
         return new ResponseEntity<>(deviceWithLifecycleEvent, HttpStatus.OK);
     }

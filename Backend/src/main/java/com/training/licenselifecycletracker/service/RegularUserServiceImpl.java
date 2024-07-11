@@ -18,34 +18,35 @@ import com.training.licenselifecycletracker.entities.LifecycleEvent;
 import com.training.licenselifecycletracker.entities.RequestLog;
 import com.training.licenselifecycletracker.entities.Software;
 import com.training.licenselifecycletracker.entities.User;
+import com.training.licenselifecycletracker.exceptions.DeviceNotFoundException;
 import com.training.licenselifecycletracker.repositories.DeviceRepository;
 import com.training.licenselifecycletracker.repositories.LifecycleEventRepository;
 import com.training.licenselifecycletracker.repositories.RequestLogRepository;
 import com.training.licenselifecycletracker.repositories.SoftwareRepository;
 import com.training.licenselifecycletracker.repositories.UserRepository;
+
 @Service
 public class RegularUserServiceImpl implements RegularUserService {
 
-	@Autowired
-    DeviceRepository deviceRepository;
-    
     @Autowired
-    SoftwareRepository softwareRepository;
-    
+    private DeviceRepository deviceRepository;
+
     @Autowired
-    LifecycleEventRepository lifecycleEventRepository;
-    
+    private SoftwareRepository softwareRepository;
+
     @Autowired
-    ModelMapper modelMapper;
-    
+    private LifecycleEventRepository lifecycleEventRepository;
+
     @Autowired
-    UserRepository userRepository;
-    
+    private ModelMapper modelMapper;
+
     @Autowired
-	RequestLogRepository requestrepo;
-	
-	
-	@Override
+    private UserRepository userRepository;
+
+    @Autowired
+    private RequestLogRepository requestrepo;
+
+    @Override
     @Transactional(readOnly = true)
     public List<DeviceDTO> getDevicesByUserId(Integer userId) {
         List<Device> devices = deviceRepository.findByUserUserId(userId);
@@ -53,7 +54,7 @@ public class RegularUserServiceImpl implements RegularUserService {
                 .map(device -> modelMapper.map(device, DeviceDTO.class))
                 .collect(Collectors.toList());
     }
-    
+
     @Override
     @Transactional(readOnly = true)
     public List<SoftwareDTO> getSoftwareByDeviceName(String deviceName) {
@@ -62,72 +63,83 @@ public class RegularUserServiceImpl implements RegularUserService {
                 .map(software -> modelMapper.map(software, SoftwareDTO.class))
                 .collect(Collectors.toList());
     }
-    
-    
-    
+
     @Override
-	public String requestRenew(SoftwareDTO softwareDTO) {
-		RequestLog requestLog=new RequestLog();
-		
-		requestLog.setType("Renew");
-		requestLog.setAssetid(softwareDTO.getSoftwareId());
-		requestLog.setItem(softwareDTO.getSoftwareName());
-		requestLog.setDetails(softwareDTO.getVersion());
-		requestLog.setRequestDate(LocalDate.now());
-		
-		requestrepo.save(requestLog);
-		
-		return "Renewal Request send  succesfully";
-	}
+    public String requestRenew(SoftwareDTO softwareDTO) {
+        RequestLog requestLog = new RequestLog();
 
-	@Override
-	public String requestReplacement(ReplaceDTO replaceDTO) {
-		RequestLog requestLog=new RequestLog();
-		
-		requestLog.setType("Replace");
-		requestLog.setAssetid(replaceDTO.getDeviceId());
-		requestLog.setItem(replaceDTO.getDeviceName());
-		requestLog.setDetails(replaceDTO.getDeviceType());
-		requestLog.setRequestDate(LocalDate.now());
-		
-		requestrepo.save(requestLog);
-		
-		LifecycleEvent lifecycle= lifecycleEventRepository.findByDevice_DeviceId(replaceDTO.getDeviceId());
-		lifecycle.setEventDate(LocalDate.now());
-		lifecycle.setEventType("Audit");
-		lifecycle.setDescription("On process for Replacement");
-		lifecycleEventRepository.save(lifecycle);
-		
-		
-		Optional<Device> device = deviceRepository.findById(replaceDTO.getDeviceId());
-		if(device.isPresent()) {
-			Device deviceupdate =device.get();
-			deviceupdate.setStatus("Unavailable");
-			
-			deviceRepository.save(deviceupdate);
-		}
-		
-		
-		return "Replacement Request send  succesfully";
-	}
+        requestLog.setType("Renew");
+        requestLog.setAssetid(softwareDTO.getSoftwareId());
+        requestLog.setItem(softwareDTO.getSoftwareName());
+        requestLog.setDetails(softwareDTO.getVersion());
+        requestLog.setRequestDate(LocalDate.now());
 
-	
-	
-	 public List<Device> searchDevices(String deviceName, String status, String deviceType) {
-	        if (deviceName != null) {
-	            return deviceRepository.findByDeviceName(deviceName);
-	        } else if (status != null) {
-	            return deviceRepository.findByStatus(status);
-	        } else if (deviceType != null) {
-	            return deviceRepository.findByDeviceType(deviceType);
-	        } else {
-	            return (List<Device>) deviceRepository.findAll();
-	        }
-	    }
-	 
-	 
-	 @Override
-	    public List<User> getAllUsers() {
-	        return (List<User>) userRepository.findAll(); // Assuming findAll() method fetches all users from repository
-	    }
+        requestrepo.save(requestLog);
+
+        return "Renewal Request sent successfully";
+    }
+
+    @Override
+    public String requestReplacement(ReplaceDTO replaceDTO) {
+        RequestLog requestLog = new RequestLog();
+
+        requestLog.setType("Replace");
+        requestLog.setAssetid(replaceDTO.getDeviceId());
+        requestLog.setItem(replaceDTO.getDeviceName());
+        requestLog.setDetails(replaceDTO.getDeviceType());
+        requestLog.setRequestDate(LocalDate.now());
+
+        requestrepo.save(requestLog);
+
+        LifecycleEvent lifecycle = lifecycleEventRepository.findByDevice_DeviceId(replaceDTO.getDeviceId());
+        if (lifecycle != null) {
+            lifecycle.setEventDate(LocalDate.now());
+            lifecycle.setEventType("Audit");
+            lifecycle.setDescription("On process for Replacement");
+            lifecycleEventRepository.save(lifecycle);
+        }
+
+        Optional<Device> device = deviceRepository.findById(replaceDTO.getDeviceId());
+        if (device.isPresent()) {
+            Device deviceToUpdate = device.get();
+            deviceToUpdate.setStatus("Unavailable");
+            deviceRepository.save(deviceToUpdate);
+        }
+
+        return "Replacement Request sent successfully";
+    }
+
+    @Override
+    public List<Device> searchDevices(String deviceName, String status, String deviceType) throws DeviceNotFoundException {
+        if (deviceName != null) {
+            List<Device> devices = deviceRepository.findByDeviceName(deviceName);
+            if (devices.isEmpty()) {
+                throw new DeviceNotFoundException("No devices found with name: " + deviceName);
+            }
+            return devices;
+        } else if (status != null) {
+            List<Device> devices = deviceRepository.findByStatus(status);
+            if (devices.isEmpty()) {
+                throw new DeviceNotFoundException("No devices found with status: " + status);
+            }
+            return devices;
+        } else if (deviceType != null) {
+            List<Device> devices = deviceRepository.findByDeviceType(deviceType);
+            if (devices.isEmpty()) {
+                throw new DeviceNotFoundException("No devices found with type: " + deviceType);
+            }
+            return devices;
+        } else {
+            List<Device> devices = (List<Device>) deviceRepository.findAll();
+            if (devices.isEmpty()) {
+                throw new DeviceNotFoundException("No devices found");
+            }
+            return devices;
+        }
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return (List<User>) userRepository.findAll();
+    }
 }
