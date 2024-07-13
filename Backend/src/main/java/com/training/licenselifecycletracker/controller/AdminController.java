@@ -24,6 +24,8 @@ import com.training.licenselifecycletracker.exceptions.DeviceNotFoundException;
 import com.training.licenselifecycletracker.exceptions.UserNotFoundException;
 import com.training.licenselifecycletracker.service.DeviceService;
 import com.training.licenselifecycletracker.service.RegularUserService;
+import com.training.licenselifecycletracker.service.RoleService;
+import com.training.licenselifecycletracker.service.UserService;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -32,6 +34,12 @@ public class AdminController {
 
      @Autowired
      RegularUserService regularUserService;
+     
+     @Autowired
+     UserService userService;
+     
+     @Autowired
+     RoleService roleService;
 
     @Autowired
     DeviceService deviceService;
@@ -83,10 +91,10 @@ public class AdminController {
     }
     
     
-    @PutMapping("/users/updaterole")
+    @PostMapping("/updaterole")
     public ResponseEntity<String> updateUserRole(@RequestParam Integer userId, @RequestBody Role role) {
         try {
-            String result = deviceService.updateRole(userId, role);
+            String result = userService.updateRole(userId, role);
             return ResponseEntity.ok(result);
         } catch (UserNotFoundException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
@@ -102,4 +110,16 @@ public class AdminController {
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
     
+    
+//    @GetMapping("/getallusers")
+//   	public ResponseEntity<Iterable<UserEntity>> getAllUsers() {
+//   		Iterable<UserEntity> users = userservice.getAllUsers();
+//   		return ResponseEntity.ok(users);
+//   	}
+    
+   	@GetMapping("/getallroles")
+   	public ResponseEntity<Iterable<Role>> getAllRoles() {
+   		Iterable<Role> role = roleService.getAllRole();
+   		return ResponseEntity.ok(role);
+   	}
 }

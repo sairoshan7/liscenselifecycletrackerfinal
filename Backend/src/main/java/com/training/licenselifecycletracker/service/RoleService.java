@@ -10,5 +10,6 @@ public interface RoleService {
 	
 	public Optional<Role> findRoleByName(ERole role);
 	public Optional<Role> findRoleById(Integer id);
+	public Iterable<Role> getAllRole() ;
  
 }

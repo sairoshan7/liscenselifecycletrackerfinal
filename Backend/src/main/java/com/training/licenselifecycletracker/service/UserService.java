@@ -33,6 +33,8 @@ public interface UserService {
 		//public Boolean existsByUsername(String username);
 	 
 		public Optional<User> findByRole(ERole role);
+		
+		public Iterable<User> getAllUsers();
 
 		
 		
